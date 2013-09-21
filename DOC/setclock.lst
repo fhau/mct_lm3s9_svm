@@ -1,0 +1,415 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ;  *********************************************
+    2 00000000         ;  File:        setclock.s
+    3 00000000         ;  Title:       setup for external XTAL clock
+    4 00000000         ;  Purpose:     LM3S9D96-DK
+    5 00000000         ;  Business:    HSA Elektrotechnik
+    6 00000000         ;  Compiler:    MDK-ARM
+    7 00000000         ;  Author/Date: Franz Haunstetter / 06.09.13
+    8 00000000         ;  Comment:     new
+    9 00000000         ;  *********************************************
+   10 00000000         
+   11 00000000 400FE060 
+                       SYSCTL_RCC_R
+                               EQU              0x400FE060  ; Main run-mode clo
+                                                            ck config register
+   12 00000000 07800000 
+                       SYSCTL_RCC_SYSDIV_M
+                               EQU              0x07800000  ; System Clock Divi
+                                                            sor
+   13 00000000 00400000 
+                       SYSCTL_RCC_USESYSDIV
+                               EQU              0x00400000  ; Enable System Clo
+                                                            ck Divider
+   14 00000000 00000017 
+                       SYSCTL_RCC_SYSDIV_S
+                               EQU              23          ; System Clock Divi
+                                                            der shift
+   15 00000000 00002000 
+                       SYSCTL_RCC_PWRDN
+                               EQU              0x00002000  ; PLL Power Down
+   16 00000000 00000800 
+                       SYSCTL_RCC_BYPASS
+                               EQU              0x00000800  ; PLL Bypass
+   17 00000000 000007C0 
+                       SYSCTL_RCC_XTAL_M
+                               EQU              0x000007C0  ; Crystal Value
+   18 00000000 00000540 
+                       SYSCTL_RCC_XTAL_16MHZ
+                               EQU              0x00000540  ; 16 MHz
+   19 00000000 00000030 
+                       SYSCTL_RCC_OSCSRC_M
+                               EQU              0x00000030  ; Oscillator Source
+                                                            
+   20 00000000 00000000 
+                       SYSCTL_RCC_OSCSRC_MAIN
+                               EQU              0x00000000  ; MOSC
+   21 00000000 00000002 
+                       SYSCTL_RCC_IOSCDIS
+                               EQU              0x00000002  ; Internal Oscillat
+                                                            or Disable
+   22 00000000 00000001 
+                       SYSCTL_RCC_MOSCDIS
+                               EQU              0x00000001  ; Main Oscillator D
+                                                            isable
+   23 00000000         
+   24 00000000 400FE070 
+                       SYSCTL_RCC2_R
+                               EQU              0x400FE070  ; 2nd run-mode cloc
+                                                            k config register
+   25 00000000 80000000 
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+                       SYSCTL_RCC2_USERCC2
+                               EQU              0x80000000  ; Use RCC2
+   26 00000000 40000000 
+                       SYSCTL_RCC2_DIV400
+                               EQU              0x40000000  ; Divide PLL as 400
+                                                             MHz instead of 200
+                                                            
+   27 00000000 1F800000 
+                       SYSCTL_RCC2_SYSDIV2_M
+                               EQU              0x1F800000  ; System Clock Divi
+                                                            sor 2
+   28 00000000 00400000 
+                       SYSCTL_RCC2_SYSDIV2LSB
+                               EQU              0x00400000  ; Additional LSB fo
+                                                            r SYSDIV2
+   29 00000000 02000000 
+                       SYSCTL_RCC2_SYSDIV2_5
+                               EQU              0x02000000  ; System clock /5
+   30 00000000 00000017 
+                       SYSCTL_RCC2_SYSDIV2_S
+                               EQU              23          ; System Clock Divi
+                                                            der shift
+   31 00000000 00002000 
+                       SYSCTL_RCC2_PWRDN2
+                               EQU              0x00002000  ; Power-Down PLL 2
+   32 00000000 00000800 
+                       SYSCTL_RCC2_BYPASS2
+                               EQU              0x00000800  ; PLL Bypass 2
+   33 00000000 00000070 
+                       SYSCTL_RCC2_OSCSRC2_M
+                               EQU              0x00000070  ; Oscillator Source
+                                                             2
+   34 00000000 00000000 
+                       SYSCTL_RCC2_OSCSRC2_MO
+                               EQU              0x00000000  ; MOSC
+   35 00000000         
+   36 00000000         ;*******************************************************
+                       ***********************
+   37 00000000         ;
+   38 00000000         ; Place code into the standard code section.
+   39 00000000         ;
+   40 00000000         ;*******************************************************
+                       ***********************
+   41 00000000                 AREA             CLOCK, CODE, READONLY
+   42 00000000                 THUMB
+   43 00000000         
+   44 00000000                 EXPORT           SetClockXTAL
+   45 00000000         SetClockXTAL
+   46 00000000         ;
+   47 00000000         ; Sets the external clock source for synchronizing the s
+                       ystem clock
+   48 00000000         ; by setting RCC/RCC2 for PLL 16 MHz -> 400 MHz -> 80 MH
+                       z output
+   49 00000000         ;
+   50 00000000         
+   51 00000000 480C            LDR              R0, = SYSCTL_RCC_R
+   52 00000002 6801            LDR              R1, [R0]
+   53 00000004 F421 61F8       AND              R1, #:NOT:(SYSCTL_RCC_XTAL_M)
+   54 00000008 F021 0101       AND              R1, #:NOT:(SYSCTL_RCC_MOSCDIS)
+
+
+
+ARM Macro Assembler    Page 3 
+
+
+   55 0000000C F441 61A8       ORR              R1, #SYSCTL_RCC_XTAL_16MHZ
+   56 00000010 6001            STR              R1, [R0]
+   57 00000012         
+   58 00000012 4809            LDR              R0, = SYSCTL_RCC2_R
+   59 00000014 6801            LDR              R1, [R0]
+   60 00000016 F021 51FE       AND              R1, #:NOT:(SYSCTL_RCC2_SYSDIV2_
+M:OR:SYSCTL_RCC2_SYSDIV2LSB)
+   61 0000001A F421 5120       AND              R1, #:NOT:(SYSCTL_RCC2_PWRDN2:O
+R:SYSCTL_RCC2_BYPASS2)
+   62 0000001E F021 0170       AND              R1, #:NOT:(SYSCTL_RCC2_OSCSRC2_
+M)
+   63 00000022 F041 4140       ORR              R1, #SYSCTL_RCC2_USERCC2:OR:SYS
+CTL_RCC2_DIV400
+   64 00000026 F041 7180       ORR              R1, #2:SHL:SYSCTL_RCC2_SYSDIV2_
+S
+   65 0000002A F041 0100       ORR              R1, #SYSCTL_RCC2_OSCSRC2_MO
+   66 0000002E 6001            STR              R1, [R0]
+   67 00000030         
+   68 00000030 6802            LDR              R2, [R0]    ; just to give it s
+                                                            ome time to settle
+   69 00000032         
+   70 00000032 4770            BX               LR
+   71 00000034         
+   72 00000034         ;*******************************************************
+                       ***********************
+   73 00000034         ;
+   74 00000034         ; Make sure the end of this section is aligned.
+   75 00000034         ;
+   76 00000034         ;*******************************************************
+                       ***********************
+   77 00000034                 ALIGN
+   78 00000034         
+   79 00000034         ;*******************************************************
+                       ***********************
+   80 00000034         ;
+   81 00000034         ; Tell the assembler that we're done.
+   82 00000034         ;
+   83 00000034         ;*******************************************************
+                       ***********************
+   84 00000034                 END
+              400FE060 
+              400FE070 
+Command Line: --debug --xref --cpu=Cortex-M3 --apcs=interwork --depend=..\obj\s
+etclock.d -o..\obj\setclock.o -IC:\Keil\ARM\RV31\INC -IC:\Keil\ARM\CMSIS\Includ
+e -IC:\Keil\ARM\Inc\Luminary --predefine="__EVAL SETA 1" --list=..\doc\setclock
+.lst ..\setclock.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+CLOCK 00000000
+
+Symbol: CLOCK
+   Definitions
+      At line 41 in file ..\setclock.s
+   Uses
+      None
+Comment: CLOCK unused
+SetClockXTAL 00000000
+
+Symbol: SetClockXTAL
+   Definitions
+      At line 45 in file ..\setclock.s
+   Uses
+      At line 44 in file ..\setclock.s
+Comment: SetClockXTAL used once
+2 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+SYSCTL_RCC2_BYPASS2 00000800
+
+Symbol: SYSCTL_RCC2_BYPASS2
+   Definitions
+      At line 32 in file ..\setclock.s
+   Uses
+      At line 61 in file ..\setclock.s
+Comment: SYSCTL_RCC2_BYPASS2 used once
+SYSCTL_RCC2_DIV400 40000000
+
+Symbol: SYSCTL_RCC2_DIV400
+   Definitions
+      At line 26 in file ..\setclock.s
+   Uses
+      At line 63 in file ..\setclock.s
+Comment: SYSCTL_RCC2_DIV400 used once
+SYSCTL_RCC2_OSCSRC2_M 00000070
+
+Symbol: SYSCTL_RCC2_OSCSRC2_M
+   Definitions
+      At line 33 in file ..\setclock.s
+   Uses
+      At line 62 in file ..\setclock.s
+Comment: SYSCTL_RCC2_OSCSRC2_M used once
+SYSCTL_RCC2_OSCSRC2_MO 00000000
+
+Symbol: SYSCTL_RCC2_OSCSRC2_MO
+   Definitions
+      At line 34 in file ..\setclock.s
+   Uses
+      At line 65 in file ..\setclock.s
+Comment: SYSCTL_RCC2_OSCSRC2_MO used once
+SYSCTL_RCC2_PWRDN2 00002000
+
+Symbol: SYSCTL_RCC2_PWRDN2
+   Definitions
+      At line 31 in file ..\setclock.s
+   Uses
+      At line 61 in file ..\setclock.s
+Comment: SYSCTL_RCC2_PWRDN2 used once
+SYSCTL_RCC2_R 400FE070
+
+Symbol: SYSCTL_RCC2_R
+   Definitions
+      At line 24 in file ..\setclock.s
+   Uses
+      At line 58 in file ..\setclock.s
+Comment: SYSCTL_RCC2_R used once
+SYSCTL_RCC2_SYSDIV2LSB 00400000
+
+Symbol: SYSCTL_RCC2_SYSDIV2LSB
+   Definitions
+      At line 28 in file ..\setclock.s
+   Uses
+      At line 60 in file ..\setclock.s
+Comment: SYSCTL_RCC2_SYSDIV2LSB used once
+SYSCTL_RCC2_SYSDIV2_5 02000000
+
+Symbol: SYSCTL_RCC2_SYSDIV2_5
+
+
+
+ARM Macro Assembler    Page 2 Alphabetic symbol ordering
+Absolute symbols
+
+   Definitions
+      At line 29 in file ..\setclock.s
+   Uses
+      None
+Comment: SYSCTL_RCC2_SYSDIV2_5 unused
+SYSCTL_RCC2_SYSDIV2_M 1F800000
+
+Symbol: SYSCTL_RCC2_SYSDIV2_M
+   Definitions
+      At line 27 in file ..\setclock.s
+   Uses
+      At line 60 in file ..\setclock.s
+Comment: SYSCTL_RCC2_SYSDIV2_M used once
+SYSCTL_RCC2_SYSDIV2_S 00000017
+
+Symbol: SYSCTL_RCC2_SYSDIV2_S
+   Definitions
+      At line 30 in file ..\setclock.s
+   Uses
+      At line 64 in file ..\setclock.s
+Comment: SYSCTL_RCC2_SYSDIV2_S used once
+SYSCTL_RCC2_USERCC2 80000000
+
+Symbol: SYSCTL_RCC2_USERCC2
+   Definitions
+      At line 25 in file ..\setclock.s
+   Uses
+      At line 63 in file ..\setclock.s
+Comment: SYSCTL_RCC2_USERCC2 used once
+SYSCTL_RCC_BYPASS 00000800
+
+Symbol: SYSCTL_RCC_BYPASS
+   Definitions
+      At line 16 in file ..\setclock.s
+   Uses
+      None
+Comment: SYSCTL_RCC_BYPASS unused
+SYSCTL_RCC_IOSCDIS 00000002
+
+Symbol: SYSCTL_RCC_IOSCDIS
+   Definitions
+      At line 21 in file ..\setclock.s
+   Uses
+      None
+Comment: SYSCTL_RCC_IOSCDIS unused
+SYSCTL_RCC_MOSCDIS 00000001
+
+Symbol: SYSCTL_RCC_MOSCDIS
+   Definitions
+      At line 22 in file ..\setclock.s
+   Uses
+      At line 54 in file ..\setclock.s
+Comment: SYSCTL_RCC_MOSCDIS used once
+SYSCTL_RCC_OSCSRC_M 00000030
+
+Symbol: SYSCTL_RCC_OSCSRC_M
+   Definitions
+      At line 19 in file ..\setclock.s
+   Uses
+
+
+
+ARM Macro Assembler    Page 3 Alphabetic symbol ordering
+Absolute symbols
+
+      None
+Comment: SYSCTL_RCC_OSCSRC_M unused
+SYSCTL_RCC_OSCSRC_MAIN 00000000
+
+Symbol: SYSCTL_RCC_OSCSRC_MAIN
+   Definitions
+      At line 20 in file ..\setclock.s
+   Uses
+      None
+Comment: SYSCTL_RCC_OSCSRC_MAIN unused
+SYSCTL_RCC_PWRDN 00002000
+
+Symbol: SYSCTL_RCC_PWRDN
+   Definitions
+      At line 15 in file ..\setclock.s
+   Uses
+      None
+Comment: SYSCTL_RCC_PWRDN unused
+SYSCTL_RCC_R 400FE060
+
+Symbol: SYSCTL_RCC_R
+   Definitions
+      At line 11 in file ..\setclock.s
+   Uses
+      At line 51 in file ..\setclock.s
+Comment: SYSCTL_RCC_R used once
+SYSCTL_RCC_SYSDIV_M 07800000
+
+Symbol: SYSCTL_RCC_SYSDIV_M
+   Definitions
+      At line 12 in file ..\setclock.s
+   Uses
+      None
+Comment: SYSCTL_RCC_SYSDIV_M unused
+SYSCTL_RCC_SYSDIV_S 00000017
+
+Symbol: SYSCTL_RCC_SYSDIV_S
+   Definitions
+      At line 14 in file ..\setclock.s
+   Uses
+      None
+Comment: SYSCTL_RCC_SYSDIV_S unused
+SYSCTL_RCC_USESYSDIV 00400000
+
+Symbol: SYSCTL_RCC_USESYSDIV
+   Definitions
+      At line 13 in file ..\setclock.s
+   Uses
+      None
+Comment: SYSCTL_RCC_USESYSDIV unused
+SYSCTL_RCC_XTAL_16MHZ 00000540
+
+Symbol: SYSCTL_RCC_XTAL_16MHZ
+   Definitions
+      At line 18 in file ..\setclock.s
+   Uses
+      At line 55 in file ..\setclock.s
+Comment: SYSCTL_RCC_XTAL_16MHZ used once
+SYSCTL_RCC_XTAL_M 000007C0
+
+
+
+ARM Macro Assembler    Page 4 Alphabetic symbol ordering
+Absolute symbols
+
+
+Symbol: SYSCTL_RCC_XTAL_M
+   Definitions
+      At line 17 in file ..\setclock.s
+   Uses
+      At line 53 in file ..\setclock.s
+Comment: SYSCTL_RCC_XTAL_M used once
+23 symbols
+358 symbols in table

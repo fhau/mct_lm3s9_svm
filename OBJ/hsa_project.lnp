@@ -1,0 +1,12 @@
+--cpu Cortex-M3
+"..\obj\main.o"
+"..\obj\startup.o"
+"..\obj\setclock.o"
+"..\obj\rs232.o"
+"..\obj\system.o"
+"..\obj\gpio.o"
+"..\obj\adc.o"
+--strict --scatter "..\OBJ\hsa_project.sct"
+--summary_stderr --info summarysizes --map --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list "..\DOC\hsa_project.map" -o ..\OBJ\hsa_project.axf
