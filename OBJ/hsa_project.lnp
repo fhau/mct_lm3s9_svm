@@ -6,6 +6,7 @@
 "..\obj\system.o"
 "..\obj\gpio.o"
 "..\obj\adc.o"
+"..\obj\pwm.o"
 --strict --scatter "..\OBJ\hsa_project.sct"
 --summary_stderr --info summarysizes --map --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

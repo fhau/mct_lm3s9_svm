@@ -33,6 +33,7 @@ void init_rs232(void);			// rs232.c
 int send_rs232( char c );
 void init_IO(void);					// GPIO.c
 int init_ADC(void);					// ADC.c
+void init_PWM(void);				// PWM.c
 
 /* global buffers */
 char c[TXTBUFL];						// single line
@@ -50,6 +51,8 @@ int main()
 	init_rs232();
 	init_IO();
 	init_ADC();
+	init_PWM();
+
 	
 	//
 	// Run the timer at once with interrupts.

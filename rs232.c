@@ -23,7 +23,8 @@
 #define IPRIO			1
 
 /* global buffers */
-extern char c[], r_c, w_c;
+extern char c[];
+extern int r_c, w_c;
 
 //
 // Initialize UART1 Rx/Tx on PD2/PD3 out of reset:
@@ -41,7 +42,7 @@ void init_rs232()
 	// Configure the port pins to their new functions.
 	//
 	GPIO_PORTD_AFSEL_R |= BIT(2) | BIT(3);	// Rx and Tx only, first alternative in PD
-	GPIO_PORTD_PCTL_R = GPIO_PCTL_PD2_U1RX | GPIO_PCTL_PD3_U1TX;
+	GPIO_PORTD_PCTL_R |= GPIO_PCTL_PD2_U1RX | GPIO_PCTL_PD3_U1TX;
 	GPIO_PORTD_DEN_R = BIT(2) | BIT(3);			// enable pins for digital signals
 
 	//

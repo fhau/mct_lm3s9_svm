@@ -9,6 +9,8 @@
 	 Comment:     new
 	 Author/Date: Franz Haunstetter / 21.09.13
 	 Comment:     rs232 line output and analog polling
+	 Author/Date: Franz Haunstetter / 22.09.13
+	 Comment:     motor control via analog input
    *********************************************
 */
 
@@ -23,7 +25,7 @@
 /* private function prototypes */
 void send_rs232_buffer( char* buf, int len ); // rs232.c
 int rec_rs232( char* buf );
-unsigned int readADC(void);			// ADC.c
+unsigned long readADC(void);			// ADC.c
 
 //
 // Initialize system devices out of reset:
@@ -56,9 +58,11 @@ void SysTickISR()
 	//
 	// Print text buffer with analog reading to rs232 console.
 	//
-	sprintf( txt, "\x1b[2J\x1b[H%4u", readADC() );
+	sprintf( txt, "\x1b[2J\x1b[H%4u", (unsigned int) (ulShadow = readADC()) );
 //	sprintf( txt, "%4u", readADC() );
 	send_rs232_buffer( txt, strlen( txt ) );
+	
+	PWM_0_CMPA_R = (2500 * ulShadow / 1024) + 2500;
 
 	//
 	// Toggle the LED each time the counter reaches 0.

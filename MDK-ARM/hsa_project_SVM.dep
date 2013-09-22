@@ -1,0 +1,25 @@
+Dependencies for Project 'hsa_project', Target 'SVM': (DO NOT MODIFY !)
+F (..\main.c)(0x523E1E39)(-c --cpu Cortex-M3 -D__EVAL -g -O0 --apcs=interwork -I..\inc-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-o ..\obj\main.o --omf_browse ..\obj\main.crf --depend ..\obj\main.d)
+I (X:\!PROJEKTE\WebFHAU\gitStellarisLM3_SVMotor\inc\lm3s9d96.h)(0x522D392E)
+I (X:\!PROJEKTE\WebFHAU\gitStellarisLM3_SVMotor\inc\labex.h)(0x523D6FF7)
+F (..\Startup.s)(0x5239F3FA)(--cpu Cortex-M3 --pd "__EVAL SETA 1" -g --apcs=interwork -I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary--list ..\doc\startup.lst --xref -o ..\obj\startup.o --depend ..\obj\startup.d)
+F (..\setclock.s)(0x523DE8B8)(--cpu Cortex-M3 --pd "__EVAL SETA 1" -g --apcs=interwork -I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary--list ..\doc\setclock.lst --xref -o ..\obj\setclock.o --depend ..\obj\setclock.d)
+F (..\rs232.c)(0x523DF85F)(-c --cpu Cortex-M3 -D__EVAL -g -O0 --apcs=interwork -I..\inc-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-o ..\obj\rs232.o --omf_browse ..\obj\rs232.crf --depend ..\obj\rs232.d)
+I (X:\!PROJEKTE\WebFHAU\gitStellarisLM3_SVMotor\inc\lm3s9d96.h)(0x522D392E)
+I (X:\!PROJEKTE\WebFHAU\gitStellarisLM3_SVMotor\inc\labex.h)(0x523D6FF7)
+F (..\system.c)(0x523DB5AD)(-c --cpu Cortex-M3 -D__EVAL -g -O0 --apcs=interwork -I..\inc-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-o ..\obj\system.o --omf_browse ..\obj\system.crf --depend ..\obj\system.d)
+I (X:\!PROJEKTE\WebFHAU\gitStellarisLM3_SVMotor\inc\lm3s9d96.h)(0x522D392E)
+I (X:\!PROJEKTE\WebFHAU\gitStellarisLM3_SVMotor\inc\labex.h)(0x523D6FF7)
+I (C:\Keil\ARM\ARMCC\include\string.h)(0x51C80BA4)
+I (C:\Keil\ARM\ARMCC\include\stdio.h)(0x51C80BA4)
+F (..\GPIO.c)(0x523DBDD5)(-c --cpu Cortex-M3 -D__EVAL -g -O0 --apcs=interwork -I..\inc-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-o ..\obj\gpio.o --omf_browse ..\obj\gpio.crf --depend ..\obj\gpio.d)
+I (X:\!PROJEKTE\WebFHAU\gitStellarisLM3_SVMotor\inc\lm3s9d96.h)(0x522D392E)
+I (X:\!PROJEKTE\WebFHAU\gitStellarisLM3_SVMotor\inc\labex.h)(0x523D6FF7)
+F (..\ADC.c)(0x523DBEB0)(-c --cpu Cortex-M3 -D__EVAL -g -O0 --apcs=interwork -I..\inc-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-o ..\obj\adc.o --omf_browse ..\obj\adc.crf --depend ..\obj\adc.d)
+I (X:\!PROJEKTE\WebFHAU\gitStellarisLM3_SVMotor\inc\lm3s9d96.h)(0x522D392E)
+I (X:\!PROJEKTE\WebFHAU\gitStellarisLM3_SVMotor\inc\labex.h)(0x523D6FF7)
+F (..\PWM.c)(0x523E8810)(-c --cpu Cortex-M3 -D__EVAL -g -O0 --apcs=interwork -I..\inc-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-o ..\obj\pwm.o --omf_browse ..\obj\pwm.crf --depend ..\obj\pwm.d)
+I (X:\!PROJEKTE\WebFHAU\gitStellarisLM3_SVMotor\inc\lm3s9d96.h)(0x522D392E)
+I (X:\!PROJEKTE\WebFHAU\gitStellarisLM3_SVMotor\inc\labex.h)(0x523D6FF7)
+F (..\inc\lm3s9d96.h)(0x522D392E)()
+F (..\inc\labex.h)(0x523D6FF7)()

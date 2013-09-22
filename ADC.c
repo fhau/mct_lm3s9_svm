@@ -59,7 +59,7 @@ int init_ADC()
 //
 // Place driver capability and shutdown routines here.
 //
-unsigned int readADC()
+unsigned long readADC()
 {
 	ADC0_PSSI_R = ADC_PSSI_SS0;
 	while (!(ADC0_RIS_R & BIT(0)));
